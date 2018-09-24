@@ -18,6 +18,8 @@ namespace dynamic_series_lab1
         public Form1()
         {
             InitializeComponent();
+            chDynamicSeries.ChartAreas[0].AxisX.Title = "Index";
+            chDynamicSeries.ChartAreas[0].AxisY.Title = "Value";
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
@@ -37,9 +39,20 @@ namespace dynamic_series_lab1
                             data.Add(reader.ReadLine());
                         }
                         Series = new DynamicSeries(fields, data);
+                        ShowDynamicSeries();
                     }
                 }
             }            
+        }
+
+        private void ShowDynamicSeries()
+        {
+            chDynamicSeries.Series[0].Points.Clear();
+            for (int i = 0; i < Series.AmountOfElements; i++)
+            {
+                chDynamicSeries.Series[0].Points.AddXY(Series.Index[i], Series.Value[i]);
+            }
+            MessageBox.Show(Series.CriterionOfDifferenceSigns().ToString());
         }
     }
 }
