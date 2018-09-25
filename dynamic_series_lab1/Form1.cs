@@ -54,5 +54,11 @@ namespace dynamic_series_lab1
             }
             MessageBox.Show(Series.CriterionOfDifferenceSigns().ToString());
         }
+
+        private void FillDataGrid()
+        {
+            int rowsCounter = 0;
+
+        }
     }
 }

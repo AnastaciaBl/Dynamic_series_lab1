@@ -8,35 +8,32 @@ namespace dynamic_series_lab1
 {
     public class DynamicSeries
     {
-        public string[] Index { get; private set; }
-        public double?[] Value { get; private set; }
+        public List<string> Index { get; private set; }
+        public List<double> Value { get; private set; }
+        public double K_statistic_difSigns { get; private set; }
         public int AmountOfElements { get; }
         private const double u = 1.96;
 
         public DynamicSeries() { }
         public DynamicSeries(string fields, List<string> data)
         {
-            Index = new string[data.Count];
-            Value = new double?[data.Count];
-            AmountOfElements = data.Count;
-            FillDataArray(data);
+            FillData(data);
+            AmountOfElements = Value.Count;
         }
 
-        private void FillDataArray(List<string> data)
+        private void FillData(List<string> data)
         {
             for (int i = 0; i < data.Count; i++)
             {
                 var temp = data[i].Split(',');
-                Index[i] = temp[0];
                 try
                 {
                     temp[1] = temp[1].Replace('.', ',');
-                    Value[i] = Convert.ToDouble(temp[1]);
+                    Value.Add(Convert.ToDouble(temp[1]));
+                    Index.Add(temp[0]);
                 }
                 catch
-                {
-                    Value[i] = null;
-                }
+                { }
             }
         }
 
@@ -55,12 +52,48 @@ namespace dynamic_series_lab1
             }
             double M = (AmountOfElements - 1) / 2;
             double D = (AmountOfElements + 1) / 12;
-            double K = (amountOfGrowthPoint - M) / Math.Sqrt(D);
-            if (Math.Abs(K) <= u)
+            K_statistic_difSigns = (amountOfGrowthPoint - M) / Math.Sqrt(D);
+            if (Math.Abs(K_statistic_difSigns) <= u)
                 return 0; //ряд случайный
-            else if (K < -1 * u)
+            else if (K_statistic_difSigns < -1 * u)
                 return -1; //тенденция к спаданию
             else return 1; //тенденция к возрастанию
+        }
+
+        public void CriterionOfRecordValues()
+        {
+            List<double> maximums, minimums;
+            FindRecordValues(out maximums, out minimums);
+            int L = minimums.Count;
+            int M = maximums.Count;
+            int D = M - L; //first criterian Foster-Stuart
+            int S = M + L; //second criterian Foster-Stuart
+
+            if(D == 0) //основная гипотеза для первой пары правильная
+            {
+
+            }
+        }
+
+        public void FindRecordValues(out List<double> maximums, out List<double> minimums)
+        {
+            maximums = new List<double>();
+            minimums = new List<double>();
+            double max = Value[0];
+            double min = Value[0];
+            for(int i=1;i<Value.Count;i++)
+            {
+                if (Value[i] < min)
+                {
+                    minimums.Add(Value[i]);
+                    min = Value[i];
+                }
+                if (Value[i] > max)
+                {
+                    maximums.Add(Value[i]);
+                    max = Value[i];
+                }
+            }
         }
     }
 }
