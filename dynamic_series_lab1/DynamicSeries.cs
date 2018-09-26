@@ -12,10 +12,15 @@ namespace dynamic_series_lab1
         public List<double> Value { get; private set; }
         public double K_statistic_difSigns { get; private set; }
         public int AmountOfElements { get; }
-        private const double u = 1.96;
+        public const double U = 1.96;
 
-        public DynamicSeries() { }
-        public DynamicSeries(string fields, List<string> data)
+        public DynamicSeries()
+        {
+            Index = new List<string>();
+            Value = new List<double>();
+        }
+
+        public DynamicSeries(string fields, List<string> data):this()
         {
             FillData(data);
             AmountOfElements = Value.Count;
@@ -53,9 +58,9 @@ namespace dynamic_series_lab1
             double M = (AmountOfElements - 1) / 2;
             double D = (AmountOfElements + 1) / 12;
             K_statistic_difSigns = (amountOfGrowthPoint - M) / Math.Sqrt(D);
-            if (Math.Abs(K_statistic_difSigns) <= u)
+            if (Math.Abs(K_statistic_difSigns) <= U)
                 return 0; //ряд случайный
-            else if (K_statistic_difSigns < -1 * u)
+            else if (K_statistic_difSigns < -1 * U)
                 return -1; //тенденция к спаданию
             else return 1; //тенденция к возрастанию
         }
@@ -71,7 +76,13 @@ namespace dynamic_series_lab1
 
             if(D == 0) //основная гипотеза для первой пары правильная
             {
-
+                double M2 = 0, D2 = 0;
+                for (int i = 1; i < AmountOfElements; i++)
+                {
+                    M2 += 2 / i;
+                    D2 += 2 / i - 4 / (i * i);
+                }
+                //double T1 = (D-
             }
         }
 

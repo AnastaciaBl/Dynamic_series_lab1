@@ -40,6 +40,7 @@ namespace dynamic_series_lab1
                         }
                         Series = new DynamicSeries(fields, data);
                         ShowDynamicSeries();
+                        FillDataGrid();
                     }
                 }
             }            
@@ -52,13 +53,33 @@ namespace dynamic_series_lab1
             {
                 chDynamicSeries.Series[0].Points.AddXY(Series.Index[i], Series.Value[i]);
             }
-            MessageBox.Show(Series.CriterionOfDifferenceSigns().ToString());
         }
 
         private void FillDataGrid()
         {
-            int rowsCounter = 0;
+            int amountOfRows = 3;
+            for (int i = 0; i < amountOfRows; i++)
+                dgDataTable.Rows.Add();
+            int difSignsCriterion = Series.CriterionOfDifferenceSigns();
+            dgDataTable.Rows[0].Cells["DifferentSignsCriterian"].Value = $"K = {Series.K_statistic_difSigns.ToString()}";
+            dgDataTable.Rows[1].Cells["DifferentSignsCriterian"].Value = $"{ReturnResultInTextForm(difSignsCriterion)}";
 
+            dgDataTable.Rows[0].Cells["NormalDistribution"].Value = DynamicSeries.U.ToString();
+        }
+
+        private string ReturnResultInTextForm(int res)
+        {
+            switch(res)
+            {
+                case -1:
+                    return "тенденция к уменьшению";
+                case 0:
+                    return "ряд случайный";
+                case 1:
+                    return "тенденция к возрастанию";
+                default:
+                    return "ошибка";
+            }            
         }
     }
 }
