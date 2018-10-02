@@ -20,6 +20,7 @@ namespace dynamic_series_lab1
             InitializeComponent();
             chDynamicSeries.ChartAreas[0].AxisX.Title = "Index";
             chDynamicSeries.ChartAreas[0].AxisY.Title = "Value";
+            //chСorrelogram.ChartAreas[0].AxisX.Minimum = 0;
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
@@ -40,6 +41,7 @@ namespace dynamic_series_lab1
                         }
                         Series = new DynamicSeries(fields, data);
                         ShowDynamicSeries();
+                        ShowCorrelation();
                         FillDataGrid();
                     }
                 }
@@ -52,6 +54,16 @@ namespace dynamic_series_lab1
             for (int i = 0; i < Series.AmountOfElements; i++)
             {
                 chDynamicSeries.Series[0].Points.AddXY(Series.Index[i], Series.Value[i]);
+            }
+        }
+
+        private void ShowCorrelation()
+        {
+            chСorrelogram.Series[0].Points.Clear();
+
+            for (int i=0;i<Series.Correlation.Count;i++)
+            {
+                chСorrelogram.Series[0].Points.AddXY(i, Series.Correlation[i]);
             }
         }
 

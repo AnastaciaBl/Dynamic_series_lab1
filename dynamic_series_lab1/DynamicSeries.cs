@@ -10,6 +10,7 @@ namespace dynamic_series_lab1
     {
         public List<string> Index { get; private set; }
         public List<double> Value { get; private set; }
+        public List<double> Correlation { get; private set; }
         public double K_statistic_difSigns { get; private set; }
         public int AmountOfElements { get; }
         public const double U = 1.96;
@@ -18,12 +19,14 @@ namespace dynamic_series_lab1
         {
             Index = new List<string>();
             Value = new List<double>();
+            Correlation = new List<double>();
         }
 
         public DynamicSeries(string fields, List<string> data):this()
         {
             FillData(data);
             AmountOfElements = Value.Count;
+            CountCorreletionInSeries();
         }
 
         private void FillData(List<string> data)
@@ -105,6 +108,44 @@ namespace dynamic_series_lab1
                     max = Value[i];
                 }
             }
+        }
+
+        private void CountCorreletionInSeries()
+        {
+            for (int i = 0; i < AmountOfElements / 2; i++)
+                Correlation.Add(CountCorreletion(i));
+        }
+
+        private double CountCorreletion(int index)
+        {
+            double numerator = 0, denominatorFirstPart = 0, denominatorSecondPart = 0, denominator = 0;
+            for(int i = 0; i < AmountOfElements - index; i++)
+            {
+                double temp = Value[i] - (1.0 / (AmountOfElements - index)) * SumOfElements(index);
+                numerator += temp * (Value[i + index] - (1.0 / (AmountOfElements - index)) * SumOfElementsWithShift(index));
+                denominatorFirstPart += Math.Pow(Value[i] - (1.0 / (AmountOfElements - index)) * SumOfElements(index), 2);
+                denominatorSecondPart += Math.Pow(Value[i + index] - (1.0 / (AmountOfElements - index)) * SumOfElementsWithShift(index), 2);
+            }
+            double koef = 1.0 / (AmountOfElements - index);
+            numerator = koef * numerator;
+            denominator = Math.Pow(koef * denominatorFirstPart * koef * denominatorSecondPart, 0.5);
+            return numerator / denominator;
+        }
+
+        private double SumOfElements(int index)
+        {
+            double res = 0;
+            for (int i = 0; i < AmountOfElements - index; i++)
+                res += Value[i];
+            return res;
+        }
+
+        private double SumOfElementsWithShift(int index)
+        {
+            double res = 0;
+            for (int i = 0; i < AmountOfElements - index; i++)
+                res += Value[i + index];
+            return res;
         }
     }
 }
