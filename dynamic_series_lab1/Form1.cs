@@ -42,7 +42,7 @@ namespace dynamic_series_lab1
                         Series = new DynamicSeries(fields, data);
                         ShowDynamicSeries();
                         ShowCorrelation();
-                        FillDataGrid();
+                        FillData();
                     }
                 }
             }            
@@ -67,16 +67,28 @@ namespace dynamic_series_lab1
             }
         }
 
-        private void FillDataGrid()
+        private void FillData()
         {
+            dgDataTable.Rows.Clear();
             int amountOfRows = 3;
             for (int i = 0; i < amountOfRows; i++)
                 dgDataTable.Rows.Add();
-            int difSignsCriterion = Series.CriterionOfDifferenceSigns();
+            Series.CriterionOfDifferenceSigns();
+            Series.CriterionOfRecordValues();
             dgDataTable.Rows[0].Cells["DifferentSignsCriterian"].Value = $"K = {Series.K_statistic_difSigns.ToString()}";
-            dgDataTable.Rows[1].Cells["DifferentSignsCriterian"].Value = $"{ReturnResultInTextForm(difSignsCriterion)}";
+            dgDataTable.Rows[1].Cells["DifferentSignsCriterian"].Value = $"{ReturnResultInTextForm(Series.CompareWithNormalQuantile(Series.K_statistic_difSigns))}";
 
-            dgDataTable.Rows[0].Cells["NormalDistribution"].Value = DynamicSeries.U.ToString();
+            dgDataTable.Rows[0].Cells["RecordValues"].Value = $"T1 = {Series.T1_statistic}";
+            dgDataTable.Rows[1].Cells["RecordValues"].Value = $"T1: {ReturnResultInTextForm(Series.CompareWithNormalQuantile(Series.T1_statistic))} среднего уровня";
+            dgDataTable.Rows[2].Cells["RecordValues"].Value = $"T2 = {Series.T2_statistic}";
+            dgDataTable.Rows[3].Cells["RecordValues"].Value = $"T2: {ReturnResultInTextForm(Series.CompareWithNormalQuantile(Series.T2_statistic))} дисперсии";
+
+            dgDataTable.Rows[0].Cells["Quantile"].Value = $"u = {DynamicSeries.U.ToString()}";
+
+            if(Series.IsCoefCorrSignificant == true)
+                tBCoefCorr.Text = $"коэффициенты значимые, есть тренд";
+            else
+                tBCoefCorr.Text = $"ряд случайный";
         }
 
         private string ReturnResultInTextForm(int res)
@@ -86,7 +98,7 @@ namespace dynamic_series_lab1
                 case -1:
                     return "тенденция к уменьшению";
                 case 0:
-                    return "ряд случайный";
+                    return "нет изменений";
                 case 1:
                     return "тенденция к возрастанию";
                 default:

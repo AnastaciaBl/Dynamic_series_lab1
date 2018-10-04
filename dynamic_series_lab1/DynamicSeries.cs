@@ -12,7 +12,10 @@ namespace dynamic_series_lab1
         public List<double> Value { get; private set; }
         public List<double> Correlation { get; private set; }
         public double K_statistic_difSigns { get; private set; }
+        public double T1_statistic { get; private set; }
+        public double T2_statistic { get; private set; }
         public int AmountOfElements { get; }
+        public bool IsCoefCorrSignificant { get; private set; }
         public const double U = 1.96;
 
         public DynamicSeries()
@@ -20,6 +23,7 @@ namespace dynamic_series_lab1
             Index = new List<string>();
             Value = new List<double>();
             Correlation = new List<double>();
+            IsCoefCorrSignificant = true;
         }
 
         public DynamicSeries(string fields, List<string> data):this()
@@ -45,7 +49,7 @@ namespace dynamic_series_lab1
             }
         }
 
-        public int CriterionOfDifferenceSigns()
+        public void CriterionOfDifferenceSigns()
         {
             //find indicators
             int[] indicators = new int[AmountOfElements - 1];
@@ -61,11 +65,6 @@ namespace dynamic_series_lab1
             double M = (AmountOfElements - 1) / 2;
             double D = (AmountOfElements + 1) / 12;
             K_statistic_difSigns = (amountOfGrowthPoint - M) / Math.Sqrt(D);
-            if (Math.Abs(K_statistic_difSigns) <= U)
-                return 0; //ряд случайный
-            else if (K_statistic_difSigns < -1 * U)
-                return -1; //тенденция к спаданию
-            else return 1; //тенденция к возрастанию
         }
 
         public void CriterionOfRecordValues()
@@ -77,16 +76,19 @@ namespace dynamic_series_lab1
             int D = M - L; //first criterian Foster-Stuart
             int S = M + L; //second criterian Foster-Stuart
 
-            if(D == 0) //основная гипотеза для первой пары правильная
-            {
-                double M2 = 0, D2 = 0;
+            //if(D == 0) //основная гипотеза для первой пары правильная
+            //{
+                double MD = 0, DD = 0;
+                double MS = 0, DS = 0;
                 for (int i = 1; i < AmountOfElements; i++)
                 {
-                    M2 += 2 / i;
-                    D2 += 2 / i - 4 / (i * i);
+                    DD += 2 / i;
+                    DS += 2 / i - 4 / (i * i);
                 }
-                //double T1 = (D-
-            }
+                MS = DD;
+                T1_statistic = (D - MD) / Math.Sqrt(DD);
+                T2_statistic = (S - MS) / Math.Sqrt(DS);
+            //}
         }
 
         public void FindRecordValues(out List<double> maximums, out List<double> minimums)
@@ -110,10 +112,24 @@ namespace dynamic_series_lab1
             }
         }
 
+        public int CompareWithNormalQuantile(double statistic)
+        {
+            if (Math.Abs(statistic) <= U)
+                return 0; //ряд случайный
+            else if (statistic < -1 * U)
+                return -1; //тенденция к спаданию
+            else return 1; //тенденция к возрастанию
+        }
+
         private void CountCorreletionInSeries()
         {
             for (int i = 0; i < AmountOfElements / 2; i++)
-                Correlation.Add(CountCorreletion(i));
+            {
+                var coef = CountCorreletion(i);
+                Correlation.Add(coef);
+                if (CheckCoefOfCorr(i, coef) == 0)
+                    IsCoefCorrSignificant = false;
+            }
         }
 
         private double CountCorreletion(int index)
@@ -146,6 +162,15 @@ namespace dynamic_series_lab1
             for (int i = 0; i < AmountOfElements - index; i++)
                 res += Value[i + index];
             return res;
+        }
+
+        private int CheckCoefOfCorr(int index, double rK)
+        {
+            var qStudent = Quantile.FindQuantileStudenta(AmountOfElements - index - 2);
+            double tK = (rK * Math.Sqrt(AmountOfElements - index - 2)) / Math.Sqrt(1 - rK * rK);
+            if (Math.Abs(tK) <= qStudent)
+                return 0;//не значимый
+            return 1;//значимый
         }
     }
 }

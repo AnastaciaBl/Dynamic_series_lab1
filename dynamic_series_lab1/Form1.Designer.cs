@@ -35,10 +35,11 @@
             this.btnOpenFile = new System.Windows.Forms.Button();
             this.chDynamicSeries = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgDataTable = new System.Windows.Forms.DataGridView();
+            this.chСorrelogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.DifferentSignsCriterian = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RecordValues = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NormalDistribution = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.chСorrelogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.Quantile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tBCoefCorr = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chDynamicSeries)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgDataTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chСorrelogram)).BeginInit();
@@ -46,9 +47,9 @@
             // 
             // btnOpenFile
             // 
-            this.btnOpenFile.Location = new System.Drawing.Point(594, 454);
+            this.btnOpenFile.Location = new System.Drawing.Point(587, 389);
             this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(123, 36);
+            this.btnOpenFile.Size = new System.Drawing.Size(151, 72);
             this.btnOpenFile.TabIndex = 0;
             this.btnOpenFile.Text = "Open...";
             this.btnOpenFile.UseVisualStyleBackColor = true;
@@ -76,29 +77,11 @@
             this.dgDataTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DifferentSignsCriterian,
             this.RecordValues,
-            this.NormalDistribution});
+            this.Quantile});
             this.dgDataTable.Location = new System.Drawing.Point(12, 318);
             this.dgDataTable.Name = "dgDataTable";
             this.dgDataTable.Size = new System.Drawing.Size(445, 172);
             this.dgDataTable.TabIndex = 2;
-            // 
-            // DifferentSignsCriterian
-            // 
-            this.DifferentSignsCriterian.HeaderText = "Different Signs Criterian";
-            this.DifferentSignsCriterian.Name = "DifferentSignsCriterian";
-            this.DifferentSignsCriterian.Width = 150;
-            // 
-            // RecordValues
-            // 
-            this.RecordValues.HeaderText = "Record Values Criterian";
-            this.RecordValues.Name = "RecordValues";
-            this.RecordValues.Width = 150;
-            // 
-            // NormalDistribution
-            // 
-            this.NormalDistribution.HeaderText = "u";
-            this.NormalDistribution.Name = "NormalDistribution";
-            this.NormalDistribution.Width = 80;
             // 
             // chСorrelogram
             // 
@@ -114,21 +97,48 @@
             this.chСorrelogram.TabIndex = 3;
             this.chСorrelogram.Text = "chart1";
             // 
+            // DifferentSignsCriterian
+            // 
+            this.DifferentSignsCriterian.HeaderText = "Different Signs Criterian";
+            this.DifferentSignsCriterian.Name = "DifferentSignsCriterian";
+            this.DifferentSignsCriterian.Width = 150;
+            // 
+            // RecordValues
+            // 
+            this.RecordValues.HeaderText = "Record Values Criterian";
+            this.RecordValues.Name = "RecordValues";
+            this.RecordValues.Width = 150;
+            // 
+            // Quantile
+            // 
+            this.Quantile.HeaderText = "Quantile";
+            this.Quantile.Name = "Quantile";
+            this.Quantile.Width = 80;
+            // 
+            // tBCoefCorr
+            // 
+            this.tBCoefCorr.Location = new System.Drawing.Point(562, 335);
+            this.tBCoefCorr.Name = "tBCoefCorr";
+            this.tBCoefCorr.Size = new System.Drawing.Size(198, 20);
+            this.tBCoefCorr.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(934, 502);
+            this.ClientSize = new System.Drawing.Size(855, 502);
+            this.Controls.Add(this.tBCoefCorr);
             this.Controls.Add(this.chСorrelogram);
             this.Controls.Add(this.dgDataTable);
             this.Controls.Add(this.chDynamicSeries);
             this.Controls.Add(this.btnOpenFile);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "lab1";
             ((System.ComponentModel.ISupportInitialize)(this.chDynamicSeries)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgDataTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chСorrelogram)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -137,10 +147,11 @@
         private System.Windows.Forms.Button btnOpenFile;
         private System.Windows.Forms.DataVisualization.Charting.Chart chDynamicSeries;
         private System.Windows.Forms.DataGridView dgDataTable;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chСorrelogram;
         private System.Windows.Forms.DataGridViewTextBoxColumn DifferentSignsCriterian;
         private System.Windows.Forms.DataGridViewTextBoxColumn RecordValues;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NormalDistribution;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chСorrelogram;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantile;
+        private System.Windows.Forms.TextBox tBCoefCorr;
     }
 }
 
