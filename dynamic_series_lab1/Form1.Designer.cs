@@ -35,14 +35,18 @@
             this.btnOpenFile = new System.Windows.Forms.Button();
             this.chDynamicSeries = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgDataTable = new System.Windows.Forms.DataGridView();
-            this.chСorrelogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.DifferentSignsCriterian = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RecordValues = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chСorrelogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tBCoefCorr = new System.Windows.Forms.TextBox();
+            this.dgRCoefs = new System.Windows.Forms.DataGridView();
+            this.RCoef = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Significance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.chDynamicSeries)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgDataTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chСorrelogram)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRCoefs)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOpenFile
@@ -83,20 +87,6 @@
             this.dgDataTable.Size = new System.Drawing.Size(445, 172);
             this.dgDataTable.TabIndex = 2;
             // 
-            // chСorrelogram
-            // 
-            chartArea2.Name = "ChartArea1";
-            this.chСorrelogram.ChartAreas.Add(chartArea2);
-            this.chСorrelogram.Location = new System.Drawing.Point(463, 12);
-            this.chСorrelogram.Name = "chСorrelogram";
-            series2.ChartArea = "ChartArea1";
-            series2.CustomProperties = "PointWidth=1";
-            series2.Name = "Series1";
-            this.chСorrelogram.Series.Add(series2);
-            this.chСorrelogram.Size = new System.Drawing.Size(377, 300);
-            this.chСorrelogram.TabIndex = 3;
-            this.chСorrelogram.Text = "chart1";
-            // 
             // DifferentSignsCriterian
             // 
             this.DifferentSignsCriterian.HeaderText = "Different Signs Criterian";
@@ -115,6 +105,20 @@
             this.Quantile.Name = "Quantile";
             this.Quantile.Width = 80;
             // 
+            // chСorrelogram
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chСorrelogram.ChartAreas.Add(chartArea2);
+            this.chСorrelogram.Location = new System.Drawing.Point(463, 12);
+            this.chСorrelogram.Name = "chСorrelogram";
+            series2.ChartArea = "ChartArea1";
+            series2.CustomProperties = "PointWidth=1";
+            series2.Name = "Series1";
+            this.chСorrelogram.Series.Add(series2);
+            this.chСorrelogram.Size = new System.Drawing.Size(377, 300);
+            this.chСorrelogram.TabIndex = 3;
+            this.chСorrelogram.Text = "chart1";
+            // 
             // tBCoefCorr
             // 
             this.tBCoefCorr.Location = new System.Drawing.Point(562, 335);
@@ -122,11 +126,33 @@
             this.tBCoefCorr.Size = new System.Drawing.Size(198, 20);
             this.tBCoefCorr.TabIndex = 4;
             // 
+            // dgRCoefs
+            // 
+            this.dgRCoefs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgRCoefs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.RCoef,
+            this.Significance});
+            this.dgRCoefs.Location = new System.Drawing.Point(846, 12);
+            this.dgRCoefs.Name = "dgRCoefs";
+            this.dgRCoefs.Size = new System.Drawing.Size(258, 478);
+            this.dgRCoefs.TabIndex = 5;
+            // 
+            // RCoef
+            // 
+            this.RCoef.HeaderText = "R coef";
+            this.RCoef.Name = "RCoef";
+            // 
+            // Significance
+            // 
+            this.Significance.HeaderText = "Significance";
+            this.Significance.Name = "Significance";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 502);
+            this.ClientSize = new System.Drawing.Size(1116, 502);
+            this.Controls.Add(this.dgRCoefs);
             this.Controls.Add(this.tBCoefCorr);
             this.Controls.Add(this.chСorrelogram);
             this.Controls.Add(this.dgDataTable);
@@ -137,6 +163,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chDynamicSeries)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgDataTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chСorrelogram)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRCoefs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,6 +179,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RecordValues;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantile;
         private System.Windows.Forms.TextBox tBCoefCorr;
+        private System.Windows.Forms.DataGridView dgRCoefs;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RCoef;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Significance;
     }
 }
 

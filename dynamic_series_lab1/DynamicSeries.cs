@@ -11,6 +11,7 @@ namespace dynamic_series_lab1
         public List<string> Index { get; private set; }
         public List<double> Value { get; private set; }
         public List<double> Correlation { get; private set; }
+        public List<bool> CorCoefSignificance { get; private set; }
         public double K_statistic_difSigns { get; private set; }
         public double T1_statistic { get; private set; }
         public double T2_statistic { get; private set; }
@@ -23,6 +24,7 @@ namespace dynamic_series_lab1
             Index = new List<string>();
             Value = new List<double>();
             Correlation = new List<double>();
+            CorCoefSignificance = new List<bool>();
             IsCoefCorrSignificant = true;
         }
 
@@ -82,8 +84,8 @@ namespace dynamic_series_lab1
                 double MS = 0, DS = 0;
                 for (int i = 1; i < AmountOfElements; i++)
                 {
-                    DD += 2 / i;
-                    DS += 2 / i - 4 / (i * i);
+                    DD += 2.0 / i;
+                    DS += 2.0 / i - 4.0 / (i * i);
                 }
                 MS = DD;
                 T1_statistic = (D - MD) / Math.Sqrt(DD);
@@ -169,7 +171,11 @@ namespace dynamic_series_lab1
             var qStudent = Quantile.FindQuantileStudenta(AmountOfElements - index - 2);
             double tK = (rK * Math.Sqrt(AmountOfElements - index - 2)) / Math.Sqrt(1 - rK * rK);
             if (Math.Abs(tK) <= qStudent)
+            {
+                CorCoefSignificance.Add(false);
                 return 0;//не значимый
+            }
+            CorCoefSignificance.Add(true);
             return 1;//значимый
         }
     }

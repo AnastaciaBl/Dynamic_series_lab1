@@ -43,6 +43,7 @@ namespace dynamic_series_lab1
                         ShowDynamicSeries();
                         ShowCorrelation();
                         FillData();
+                        FillDataGridWithCoefs();
                     }
                 }
             }            
@@ -104,6 +105,17 @@ namespace dynamic_series_lab1
                 default:
                     return "ошибка";
             }            
+        }
+
+        private void FillDataGridWithCoefs()
+        {
+            dgRCoefs.Rows.Clear();
+            for (int i = 0; i < Series.Correlation.Count; i++)
+            {
+                dgRCoefs.Rows.Add();
+                dgRCoefs.Rows[i].Cells["RCoef"].Value = Series.Correlation[i].ToString();
+                dgRCoefs.Rows[i].Cells["Significance"].Value = Series.CorCoefSignificance[i].ToString();
+            }
         }
     }
 }
